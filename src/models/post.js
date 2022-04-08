@@ -9,7 +9,11 @@ const PostsSchema = new Schema({
   seasoning: String,
   content: String,
   thumbnail: String,
-  author_id: String,
+  author: {
+    _id: mongoose.Types.ObjectId,
+    username: String,
+    nickname: String
+  },
   likes: Number,
   tag: [String],
   date: {

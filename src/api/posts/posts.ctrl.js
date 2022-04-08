@@ -56,8 +56,7 @@ export const search = async (ctx) => {
 export const write = async (ctx) => {
   const {
     title,
-    material_main,
-    material_sub,
+    material,
     category,
     seasoning,
     content,
@@ -66,12 +65,12 @@ export const write = async (ctx) => {
   } = ctx.request.body;
   const post = new Post({
     title,
-    material_main,
-    material_sub,
+    material,
     category,
     seasoning,
     content,
     thumbnail,
+    author: ctx.state.user,
     tag,
   });
   try {
@@ -84,7 +83,7 @@ export const write = async (ctx) => {
 
 export const list = async (ctx) => {
   try {
-    const posts = await Post.find().sort({ _id: -1 });
+    const posts = await Post.find().sort({ _id: 1 });
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
@@ -120,7 +119,7 @@ export const listByCategory = async (ctx) => {
   }
 
   try {
-    const posts = await Post.find({ "category": categoryName }).sort({ _id: -1 });
+    const posts = await Post.find({ "category": categoryName }).sort({ _id: 1 });
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
