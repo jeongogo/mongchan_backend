@@ -4,13 +4,14 @@ const { Schema } = mongoose;
 
 const PostsSchema = new Schema({
   title: String,
-  material_main: String,
-  material_sub: String,
+  material: String,
   category: String,
   seasoning: String,
   content: String,
   thumbnail: String,
-  tag: [],
+  author_id: String,
+  likes: Number,
+  tag: [String],
   date: {
     type: Date,
     default: Date.now,

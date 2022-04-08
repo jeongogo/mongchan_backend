@@ -22,6 +22,22 @@ export const getPostById = async (ctx, next) => {
   }
 };
 
+export const getPostByRandom = async (ctx, next) => {
+  try {
+    const totalCount = await Post.count();
+    const random = Math.floor(Math.random() * totalCount);
+    const post = await Post.aggregate([{ $sample: { size: 1 } }]);
+    if (!post) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.state.post = post;
+    return next();
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
 export const search = async (ctx) => {
   const { title } = ctx.query;
 
@@ -76,22 +92,49 @@ export const list = async (ctx) => {
 };
 
 export const listByCategory = async (ctx) => {
+  const { category } = ctx.params;
+  let categoryName = null;
+
+  switch (category) {
+    case "korean":
+      categoryName = "한식";
+      break;
+    case "western":
+      categoryName = "양식";
+      break;
+    case "chinese":
+      categoryName = "중식";
+      break;
+    case "japanese":
+      categoryName = "일식";
+      break;
+    case "snack":
+      categoryName = "분식";
+      break;
+    case "etc":
+      categoryName = "기타";
+      break;
+    default:
+      categoryName = null;
+      break;
+  }
+
   try {
-    const posts = await Post.find().sort({ _id: -1 });
+    const posts = await Post.find({ "category": categoryName }).sort({ _id: -1 });
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
   }
 };
 
-// export const count = async (ctx) => {
-//   try {
-//     const count = await Post.count();
-//     ctx.body = count;
-//   } catch (e) {
-//     ctx.throw(500, e);
-//   }
-// };
+export const count = async (ctx) => {
+  try {
+    const count = await Post.count();
+    ctx.body = count;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
 
 export const read = async (ctx) => {
   ctx.body = ctx.state.post;
