@@ -24,8 +24,6 @@ export const getPostById = async (ctx, next) => {
 
 export const getPostByRandom = async (ctx, next) => {
   try {
-    const totalCount = await Post.count();
-    const random = Math.floor(Math.random() * totalCount);
     const post = await Post.aggregate([{ $sample: { size: 1 } }]);
     if (!post) {
       ctx.status = 404;
@@ -54,15 +52,8 @@ export const search = async (ctx) => {
 };
 
 export const write = async (ctx) => {
-  const {
-    title,
-    material,
-    category,
-    seasoning,
-    content,
-    thumbnail,
-    tag,
-  } = ctx.request.body;
+  const { title, material, category, seasoning, content, thumbnail, tag } =
+    ctx.request.body;
   const post = new Post({
     title,
     material,
@@ -95,23 +86,23 @@ export const listByCategory = async (ctx) => {
   let categoryName = null;
 
   switch (category) {
-    case "korean":
-      categoryName = "한식";
+    case 'korean':
+      categoryName = '한식';
       break;
-    case "western":
-      categoryName = "양식";
+    case 'western':
+      categoryName = '양식';
       break;
-    case "chinese":
-      categoryName = "중식";
+    case 'chinese':
+      categoryName = '중식';
       break;
-    case "japanese":
-      categoryName = "일식";
+    case 'japanese':
+      categoryName = '일식';
       break;
-    case "snack":
-      categoryName = "분식";
+    case 'snack':
+      categoryName = '분식';
       break;
-    case "etc":
-      categoryName = "기타";
+    case 'etc':
+      categoryName = '기타';
       break;
     default:
       categoryName = null;
@@ -119,7 +110,7 @@ export const listByCategory = async (ctx) => {
   }
 
   try {
-    const posts = await Post.find({ "category": categoryName }).sort({ _id: 1 });
+    const posts = await Post.find({ category: categoryName }).sort({ _id: 1 });
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);

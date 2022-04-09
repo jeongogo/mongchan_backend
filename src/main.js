@@ -31,7 +31,7 @@ app.use(jwtMiddleware);
 
 app.use(router.routes()).use(router.allowedMethods());
 
-const buildDirectory = path.resolve(__dirname, '../../sujisam_frontend/build');
+const buildDirectory = path.resolve(__dirname, '../../mongchan_frontend/build');
 app.use(serve(buildDirectory));
 app.use(async (ctx) => {
   if (ctx.status === 404 && ctx.path.indexOf('/api') !== 0) {
