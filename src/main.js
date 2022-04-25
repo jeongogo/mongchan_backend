@@ -34,7 +34,7 @@ app.use(router.routes()).use(router.allowedMethods());
 const buildDirectory = path.resolve(__dirname, '../../mongchan_frontend/build');
 app.use(serve(buildDirectory));
 
-const uploadDirectory = path.join(__dirname, '../../mongchan_frontend/public/upload');
+const uploadDirectory = path.join(__dirname, '../upload');
 app.use(serve(uploadDirectory));
 
 app.use(async (ctx) => {

@@ -8,12 +8,12 @@ const posts = new Router();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve(__dirname, '../../../../mongchan_frontend/public/upload'));
+    cb(null, path.resolve(__dirname, '../../../upload'));
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '.jpg');
-  }
-})
+  },
+});
 
 const upload = multer({ storage: storage });
 
