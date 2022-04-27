@@ -136,7 +136,7 @@ export const listByCategory = async (ctx) => {
   }
 
   try {
-    const posts = await Post.find({ category: categoryName }).sort({ _id: 1 });
+    const posts = await Post.find({ category: categoryName }).sort({ _id: -1 });
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e);
