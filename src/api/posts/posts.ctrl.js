@@ -36,21 +36,6 @@ export const getPostByRandom = async (ctx, next) => {
   }
 };
 
-export const search = async (ctx) => {
-  const { title } = ctx.query;
-
-  try {
-    const post = await Post.find({ title: title });
-    if (!post) {
-      ctx.status = 404;
-      return;
-    }
-    ctx.body = post;
-  } catch (e) {
-    ctx.throw(500, e);
-  }
-};
-
 export const write = async (ctx) => {
   const { title, material, category, seasoning, content, thumbnail, tag } =
     ctx.request.body;
@@ -102,6 +87,21 @@ export const list = async (ctx) => {
   try {
     const posts = await Post.find().sort({ _id: -1 });
     ctx.body = posts;
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+};
+
+export const search = async (ctx) => {
+  const { title } = ctx.query;
+
+  try {
+    const post = await Post.find({ title: {$regex: title} }).sort({ _id: -1 });
+    if (!post) {
+      ctx.status = 404;
+      return;
+    }
+    ctx.body = post;
   } catch (e) {
     ctx.throw(500, e);
   }
