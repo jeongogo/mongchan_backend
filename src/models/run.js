@@ -4,7 +4,15 @@ const { Schema } = mongoose;
 
 const RunSchema = new Schema({
   name: String,
-  data: [Number]
+  week1: {
+    data: [Number]
+  },
+  week2: {
+    data: [Number]
+  },
+  week3: {
+    data: [Number]
+  },  
 });
 
 const Run = mongoose.model('Run', RunSchema);

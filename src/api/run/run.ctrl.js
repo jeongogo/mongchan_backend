@@ -20,9 +20,10 @@ export const listBySort = async (ctx) => {
 
 export const update = async (ctx) => {
   const { id } = ctx.params;
+  const keyName = 'week' + ctx.request.body.week;
 
   try {
-    const data = await Run.findByIdAndUpdate(id, ctx.request.body, {
+    const data = await Run.findByIdAndUpdate(id, { [keyName]: ctx.request.body.data }, {
       new: true,
     }).exec();
     if (!data) {
