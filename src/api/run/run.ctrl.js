@@ -21,10 +21,9 @@ export const listBySort = async (ctx) => {
 
 export const update = async (ctx) => {
   const { id } = ctx.params;
-  const keyName = 'week' + ctx.request.body.week;
   
   try {
-    const data = await Run.findByIdAndUpdate(id, { [keyName]: ctx.request.body.data }, {
+    const data = await Run.findByIdAndUpdate(id, { data: ctx.request.body.data }, {
       new: true,
     }).exec();
     if (!data) {
@@ -48,10 +47,9 @@ export const getTeam = async (ctx) => {
 
 export const updateTeam = async (ctx) => {
   const id = "63e19e998c1174fad9716ef6";
-  const keyName = 'week' + ctx.request.body.week;
   
   try {
-    const data = await Team.findByIdAndUpdate(id, { [keyName]: ctx.request.body.data }, {
+    const data = await Team.findByIdAndUpdate(id, { data: ctx.request.body.data }, {
       new: true,
     }).exec();
     if (!data) {
